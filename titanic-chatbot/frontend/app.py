@@ -9,11 +9,13 @@ import streamlit as st
 from dotenv import load_dotenv
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(ROOT_DIR / ".env", override=True)
+load_dotenv(ROOT_DIR / ".env", override=False)
 
 st.set_page_config(page_title="Titanic Chatbot", page_icon="\U0001F6A2", layout="wide")
 
-API_BASE_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+API_BASE_URL = str(
+    st.secrets.get("BACKEND_URL", os.getenv("BACKEND_URL", "http://localhost:8000"))
+).strip()
 
 EXAMPLE_QUESTIONS = [
     "What percentage of passengers were male?",
